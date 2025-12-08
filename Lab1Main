@@ -5,13 +5,12 @@ from controllers.lab1_controller import Lab1Controller
 
 
 def main() -> None:
-"""Start the PyQt application."""
-app = QApplication(sys.argv)
-view = MainWindow()
-controller = Lab1Controller(view)
-view.show()
-sys.exit(app.exec())
+  app = QApplication(sys.argv)
+  view = MainWindow()
+  controller = Lab1Controller(view)
+  view.show()
+  sys.exit(app.exec())
 
 
 if __name__ == "__main__":
-main()
+  main()

@@ -1,0 +1,18 @@
+from PyQt6 import uic
+from PyQt6.QtWidgets import QMainWindow, QMessageBox
+from pathlib import Path
+
+UI_PATH = Path(__file__).parent / "inventory_main.ui"
+
+class InventoryView(QMainWindow):
+
+  def __init__(self, ui_path: str | Path = UI_PATH) -> None:
+    super().__init__()
+    uic.loadUi(str(ui_path), self)
+
+  def show_error(self, message: str) -> None:
+    QMessageBox.critical(self, "Error", message)
+
+
+  def show_info(self, message: str) -> None:
+    QMessageBox.information(self, "Info", message)

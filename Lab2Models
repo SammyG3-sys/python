@@ -1,0 +1,45 @@
+from pathlib import Path
+import csv
+from typing import List, Dict
+from datetime import datetime
+
+DATA_FILE = Path(__file__).parent.parent / "data" / "inventory.csv"
+
+class ValidationError(Exception):
+  pass
+
+
+class InventoryModel:
+
+  HEADERS = ["id", "name", "category", "purchase_date", "cost", "notes"]
+
+
+  def __init__(self, data_file: Path = DATA_FILE) -> None:
+    self.data_file = data_file
+    self.data_file.parent.mkdir(parents=True, exist_ok=True)
+    if not self.data_file.exists():
+      self._create_header()
+
+
+  def _create_header(self) -> None:
+    with self.data_file.open("w", newline="", encoding="utf-8") as f:
+      writer = csv.writer(f)
+      writer.writerow(self.HEADERS)
+
+
+  def validate(self, rec: Dict[str, str]) -> None:
+    if not rec.get("id") or not rec.get("name"):
+      raise ValidationError("ID and name are required")
+    try:
+      if rec.get("cost"):
+        float(rec["cost"])
+    except ValueError:
+      raise ValidationError("Cost must be a number")
+    if rec.get("purchase_date"):
+      try:
+        datetime.fromisoformat(rec["purchase_date"]) # YYYY-MM-DD
+      except ValueError:
+        raise ValidationError("purchase_date must be YYYY-MM-DD")
+
+
+  def add_item(self,

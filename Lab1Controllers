@@ -1,0 +1,23 @@
+from PyQt6.QtCore import pyqtSlot
+from models.lab1_model import Lab1Model
+
+
+class Lab1Controller:
+
+
+  def __init__(self, view) -> None:
+    self.view = view
+    self.model = Lab1Model()
+    try:
+      self.view.pushButton_doSomething.clicked.connect(self.on_do_thing)
+    except AttributeError:
+      pass
+
+
+  def on_do_thing(self) -> None:
+    try:
+      field1 = self.view.lineEdit_input.text()
+      self.model.add_row({"field1": field1, "field2": ""})
+      self.view.statusbar.showMessage("Saved", 3000)
+    except Exception as e:
+      self.view.show_error(str(e))

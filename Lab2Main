@@ -1,0 +1,16 @@
+import sys
+from PyQt6.QtWidgets import QApplication
+from gui.inventory_view import InventoryView
+from controllers.inventory_controller import InventoryController
+
+
+def main() -> None:
+  app = QApplication(sys.argv)
+  view = InventoryView()
+  controller = InventoryController(view)
+  view.show()
+  sys.exit(app.exec())
+
+
+if __name__ == "__main__":
+main()

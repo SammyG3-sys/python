@@ -1,0 +1,12 @@
+import tempfile
+from pathlib import Path
+from models.lab1_model import Lab1Model
+
+
+def test_add_and_read(tmp_path: Path):
+  f = tmp_path / "lab1.csv"
+  m = Lab1Model(data_file=f)
+  m.add_row({"field1": "hello", "field2": "x"})
+  rows = m.read_all()
+  assert len(rows) == 1
+  assert rows[0]["field1"] == "hello"
